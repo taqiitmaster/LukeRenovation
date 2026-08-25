@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --shell: 1280px;
+    --nav-h: 76px;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Anchor scrolls stop below the sticky navbar. */
+    scroll-padding-top: calc(var(--nav-h) + 16px);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ink-900 font-sans text-mist antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: #22d3ee;
+    color: #06131a;
+  }
+
+  /* One visible, consistent focus ring everywhere. */
+  :focus-visible {
+    outline: 2px solid #22d3ee;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+    text-wrap: balance;
+  }
+
+  img {
+    -webkit-user-drag: none;
+    user-select: none;
+  }
+
+  /* Users who ask for less motion get a static, still-beautiful page. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-shell px-5 sm:px-8 lg:px-10;
+  }
+
+  /* Frosted panel — the recurring surface of the whole design. */
+  .glass {
+    background: linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.075) 0%,
+      rgba(255, 255, 255, 0.028) 45%,
+      rgba(255, 255, 255, 0.012) 100%
+    );
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      0 24px 60px -28px rgba(0, 0, 0, 0.85);
+  }
+
+  .glass-light {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(14px) saturate(130%);
+    -webkit-backdrop-filter: blur(14px) saturate(130%);
+    border: 1px solid rgba(11, 15, 20, 0.08);
+    box-shadow: 0 20px 50px -34px rgba(11, 15, 20, 0.5);
+  }
+
+  /* Mono eyebrow — reads like a drawing annotation. Sets the
+     "engineered" register the rest of the type plays against. */
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.28em];
+  }
+
+  .rule {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-white/18 to-transparent;
+  }
+
+  .display-xl {
+    @apply font-display font-bold leading-[0.92] tracking-tightest;
+    font-size: clamp(2.5rem, 7.2vw, 5.75rem);
+  }
+
+  .display-lg {
+    @apply font-display font-bold leading-[0.95] tracking-tightest;
+    font-size: clamp(2rem, 5.2vw, 3.9rem);
+  }
+
+  .display-md {
+    @apply font-display font-semibold leading-[1.03] tracking-tight;
+    font-size: clamp(1.55rem, 3.1vw, 2.35rem);
+  }
+
+  .body-lg {
+    @apply text-[15px] leading-relaxed sm:text-base sm:leading-[1.75];
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(94deg, #e8ecef 12%, #22d3ee 52%, #2dd4bf 88%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Filmic grain. Tiny inline SVG turbulence — no image request, no jank. */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.42;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  }
+
+  .grain-light::after {
+    opacity: 0.2;
+  }
+
+  .edge-fade {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 9%,
+      #000 91%,
+      transparent
+    );
+    mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    scrollbar-width: none;
+  }
+}
